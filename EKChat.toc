@@ -1,0 +1,13 @@
+## Interface: 70300
+## Author: EK
+## Title: |cff00ffffEK|rChat
+## Notes: Simple Chatmod
+## Credits-to: Zork, Neovo, Paopao, Siweia
+
+GlobalStrings.lua
+
+EKchat.lua
+ChatCopy.lua
+
+#Misc\ChatLootIcons.lua
+#Misc\NoGoldSeller.lua
