@@ -248,4 +248,10 @@ Event:SetScript("OnEvent", function(self, event, ...)
 	ChatTypeInfo["BN_INLINE_TOAST_ALERT"].flashTab = false
 	ChatTypeInfo["BN_INLINE_TOAST_BROADCAST"].flashTab = false
 	ChatTypeInfo["BN_INLINE_TOAST_BROADCAST_INFORM"].flashTab = false
+	-- 訊息過濾
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_JOIN", function(msg) return true end)		-- 進入頻道
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_LEAVE", function(msg) return true end)		-- 離開頻道
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_NOTICE", function(msg) return true end)		-- 頻道通知
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", function(msg) return true end)					-- 暫離
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", function(msg) return true end)					-- 忙碌
 end)
