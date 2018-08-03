@@ -12,7 +12,7 @@ function ChatEdit_CustomTabPressed(self)
 			self:SetAttribute("chatType", "BATTLEGROUND")
 			ChatEdit_UpdateHeader(self)
 		elseif IsInGuild() then
-			self:SetAttribute("chatType", "GUILD");
+			self:SetAttribute("chatType", "GUILD")
 			ChatEdit_UpdateHeader(self)
 		else
 			return
