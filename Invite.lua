@@ -1,19 +1,47 @@
--- [[ 按alt邀請 ]] --
+-- [[ 按alt組隊邀請，ctrl公會邀請 ]] --
 
-local sub = string.sub
-local match = string.match
+hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, _, button)
+	local type, value = link:match("(%a+):(.+)")
+	local hide
+	if button == "LeftButton" and IsModifierKeyDown() then
+		if type == "player" then
+			local unit = value:match("([^:]+)")
+			if IsAltKeyDown() then
+				InviteToGroup(unit)
+				hide = true
+			elseif IsControlKeyDown() then
+				GuildInvite(unit)
+				hide = true
+			end
+			elseif type == "BNplayer" then
+				local _, bnID = value:match("([^:]*):([^:]*):")
+				if not bnID then return end
+				local _, _, _, _, _, gameID = BNGetFriendInfoByID(bnID)
+				if gameID and CanCooperateWithGameAccount(gameID) then
+					if IsAltKeyDown() then
+						BNInviteFriend(gameID)
+						hide = true
+					elseif IsControlKeyDown() then
+						local _, charName, _, realmName = BNGetGameAccountInfo(gameID)
+						GuildInvite(charName.."-"..realmName)
+						hide = true
+					end
+				end
+			end
+		elseif type == "url" then
+			local eb = LAST_ACTIVE_CHAT_EDIT_BOX or _G[frame:GetName().."EditBox"]
+			if eb then
+				eb:Show()
+				eb:SetText(value)
+				eb:SetFocus()
+				eb:HighlightText()
+			end
+		end
 
-local AltInvite = SetItemRef
-SetItemRef = function(link, text, button)
-	local linkType = string.sub(link, 1, 6)
-	if IsAltKeyDown() and linkType == "player" then
-		local name = string.match(link, "player:([^:]+)")
-		InviteUnit(name)
-		return nil
-	end
-	return AltInvite(link,text,button)
-end
-
+		if hide then ChatEdit_ClearChat(ChatFrame1.editBox) end
+	end)
+	
+	
 -- [[ 密語關鍵字邀請 ]] --
 
 local INV = CreateFrame("Frame", UIParent)
