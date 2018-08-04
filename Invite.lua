@@ -13,42 +13,34 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, _, button)
 				GuildInvite(unit)
 				hide = true
 			end
-			elseif type == "BNplayer" then
-				local _, bnID = value:match("([^:]*):([^:]*):")
-				if not bnID then return end
-				local _, _, _, _, _, gameID = BNGetFriendInfoByID(bnID)
-				if gameID and CanCooperateWithGameAccount(gameID) then
-					if IsAltKeyDown() then
-						BNInviteFriend(gameID)
-						hide = true
-					elseif IsControlKeyDown() then
-						local _, charName, _, realmName = BNGetGameAccountInfo(gameID)
-						GuildInvite(charName.."-"..realmName)
-						hide = true
-					end
+		elseif type == "BNplayer" then
+			local _, bnID = value:match("([^:]*):([^:]*):")
+			if not bnID then return end
+			local _, _, _, _, _, gameID = BNGetFriendInfoByID(bnID)
+			if gameID and CanCooperateWithGameAccount(gameID) then
+				if IsAltKeyDown() then
+					BNInviteFriend(gameID)
+					hide = true
+				elseif IsControlKeyDown() then
+					local _, charName, _, realmName = BNGetGameAccountInfo(gameID)
+					GuildInvite(charName.."-"..realmName)
+					hide = true
 				end
 			end
-		elseif type == "url" then
-			local eb = LAST_ACTIVE_CHAT_EDIT_BOX or _G[frame:GetName().."EditBox"]
-			if eb then
-				eb:Show()
-				eb:SetText(value)
-				eb:SetFocus()
-				eb:HighlightText()
-			end
 		end
-
-		if hide then ChatEdit_ClearChat(ChatFrame1.editBox) end
-	end)
+	else return end
+	-- 別打開輸入框
+	if hide then ChatEdit_ClearChat(ChatFrame1.editBox) end
+end)
 	
 	
 -- [[ 密語關鍵字邀請 ]] --
 
-local INV = CreateFrame("Frame", UIParent)
-INV:RegisterEvent("CHAT_MSG_WHISPER")
-INV:RegisterEvent("CHAT_MSG_BN_WHISPER")
+local WhisperInvite = CreateFrame("Frame", UIParent)
+WhisperInvite:RegisterEvent("CHAT_MSG_WHISPER")
+WhisperInvite:RegisterEvent("CHAT_MSG_BN_WHISPER")
 -- EVENT 返回值 1密語 2角色id 12guid 13戰網好友的角色id
-INV:SetScript("OnEvent",function(self, event, msg, name, _, _, _, _, _, _, _, _, _, _, presenceID)
+WhisperInvite:SetScript("OnEvent",function(self, event, msg, name, _, _, _, _, _, _, _, _, _, _, presenceID)
 	-- 關鍵字
 	if msg == "+++" or msg == "111" then
 		-- 不在團隊中或者有組人權限
@@ -64,7 +56,8 @@ INV:SetScript("OnEvent",function(self, event, msg, name, _, _, _, _, _, _, _, _,
 				end
 			else
 				if name then
-					InviteUnit(name)
+					InviteToGroup(name)
+					--InviteUnit(name)
 				end
 			end
 		end
