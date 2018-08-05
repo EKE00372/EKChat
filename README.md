@@ -23,6 +23,7 @@
     * 對名字按alt邀請組隊，按ctrl邀請公會
     * 密語關鍵字邀請組隊：+++/111
     * TAB切換頻道
+    * /cc 清除當前聊天框內容，/cca 清除所有聊天框內容
 * 其他
     * nogoldseller廣告過濾(適用ZHCN和ZHTW)
     * SpamageMeters傷害統計折疊
