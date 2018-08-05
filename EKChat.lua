@@ -20,9 +20,8 @@ local maxWidth, maxHeight = UIParent:GetWidth(), UIParent:GetHeight()
 
 local _G = _G
 
-
 -- 框架透明
---[[_G.DEFAULT_CHATFRAME_ALPHA = 0
+_G.DEFAULT_CHATFRAME_ALPHA = 0
 _G.DEFAULT_CHATFRAME_COLOR = {r = 0, g = 0, b = 0, a = 0}
 -- TAB淡出
 _G.CHAT_TAB_SHOW_DELAY = 0
@@ -34,8 +33,7 @@ _G.CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 _G.CHAT_FRAME_TAB_ALERTING_MOUSEOVER_ALPHA = 1
 _G.CHAT_FRAME_TAB_ALERTING_NOMOUSE_ALPHA = 0.6
 _G.CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 0.6
-_G.CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0]]--
-
+_G.CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 
 -- [[ 頻道縮寫 & 去除名字引號 ]] --
 
@@ -74,7 +72,7 @@ BNToastFrame:HookScript("OnShow", function(self)
 	self:ClearAllPoints()
 	self:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPLEFT", 0, 25)
 end)
-	
+
 -- 框架優化
 local function skinChat(self)
 	if not self or (self and self.styled) then return end
@@ -201,6 +199,27 @@ hooksecurefunc("FloatingChatFrame_OnMouseScroll", function(self, delta, ...)
 		end
 	end
 end)
+
+-- [[ 清除聊天框內容 ]] --
+
+-- 清除單頁
+SlashCmdList["CLEAR"] = function(msg)
+	SELECTED_CHAT_FRAME:Clear()  
+	if IsCombatLog(SELECTED_CHAT_FRAME) then
+		CombatLogClearEntries()	-- Check for CombatLog Frame and Clear it the right way
+	end	
+end
+SLASH_CLEAR1 = "/cc"
+
+-- 清除所有
+SlashCmdList["CLEARALL"] = function(msg)
+	for i=1, NUM_CHAT_WINDOWS do
+		_G["ChatFrame"..i]:Clear()
+	end
+	CombatLogClearEntries()	-- Clear CombatLog the right way
+end
+SLASH_CLEARALL1 = "/cca"
+
 
 -- [[ 載入事件 ]] --
 
