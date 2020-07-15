@@ -1,15 +1,20 @@
-## Interface: 80000
+## Interface: 80300
 ## Author: EK
 ## Title: |cff00ffffEK|rChat
 ## Notes: Simple Chatmod
 ## Credits-to: Zork, Neovo, Paopao, Siweia
 
-
+Config.lua
 GlobalStrings.lua
-EKchat.lua
+
+EKChat.lua
+
+
+
 Invite.lua
-ChatCopy.lua
-TabSwitch.lua
+#ChatCopy.lua
+#TabSwitch.lua
+
 #Misc\ChatLootIcons.lua
 #Misc\NoGoldSeller.lua
 #TEST.lua
